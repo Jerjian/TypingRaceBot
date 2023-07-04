@@ -32,6 +32,7 @@ module.exports = {
     await timer(1000);
     const words = await generateWords(nbrOfWords);
     const sentence = words.join(" ");
+    let startTime = new Date();
     await interaction.followUp(`\`${sentence}\``);
 
     const filter = (m) => {
@@ -44,7 +45,11 @@ module.exports = {
       time: nbrOfWords * 2000,
     });
     collector.on("collect", (m) => {
-      interaction.followUp(`${m.author} won!`);
+      endTime = new Date();
+      const timeDifference = ((endTime - startTime) / 1000).toFixed(2); //in second
+      interaction.followUp(
+        `${m.author} won! It took them ${timeDifference} seconds`
+      );
       someoneWon = true;
       collector.stop();
     });
